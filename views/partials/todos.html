@@ -1,0 +1,35 @@
+{{ range .Todos }}
+
+<div id="todo-{{ .ID }}" class="flex justify-between items-center border-y -mt-[1px] py-3">
+  <div class="flex items-center w-full gap-3">
+    {{ if .Completed }}
+    <div>✅</div>
+    {{ end }}
+    <form
+      hx-put="/api/todos/{{ .ID }}?template=true"
+      hx-swap="outerHTML"
+      hx-trigger="click"
+      hx-target="#todo-{{ .ID }}"
+      class="w-full"
+    >
+      <input name="completed" value="{{ if not .Completed }}true{{ else }}false{{ end }}" hidden />
+      <input name="title" type="text" value="{{ .Title }}" hidden />
+      <button
+        type="submit"
+        class="{{ if .Completed }}line-through{{ end }} text-xl hover:cursor-pointer text-left wrap-balance w-full"
+      >
+        {{ .Title }}
+      </button>
+    </form>
+  </div>
+  <button
+    hx-delete="/api/todos/{{ .ID }}?template=true"
+    hx-swap="delete"
+    hx-target="#todo-{{ .ID }}"
+    class="px-4 py-2 font-bold text-white bg-red-500 rounded hover:bg-red-700 max-w-fit h-11"
+  >
+    Delete
+  </button>
+</div>
+
+{{ end }}

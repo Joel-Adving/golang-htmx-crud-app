@@ -1,0 +1,30 @@
+{{template "partials/header" .}} {{template "partials/contentBegin" .}}
+
+<h1 class="text-5xl">Home</h1>
+
+<section class="pt-10">
+  <form
+    hx-post="/api/todos?template=true"
+    hx-swap="afterbegin"
+    hx-target="#todos"
+    hx-on::after-request="this.reset()"
+    class="flex gap-4 mb-10"
+  >
+    <input
+      required
+      type="text"
+      name="title"
+      placeholder="title"
+      class="px-4 py-2 border-2 border-gray-400 rounded h-11"
+    />
+    <button
+      type="submit"
+      class="px-4 py-2 font-bold text-white bg-blue-500 rounded h-11 whitespace-nowrap hover:bg-blue-700"
+    >
+      Add todo
+    </button>
+  </form>
+  <div id="todos" hx-get="/api/todos?template=true" hx-trigger="load" hx-swap="innerHTML" class="flex flex-col"></div>
+</section>
+
+{{template "partials/contentEnd" .}}
